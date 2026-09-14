@@ -416,7 +416,33 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "validate":
         return _validate(args.challenges_dir)
     if args.command == "run":
-        ...
+        if args.adapter == "cli":
+            if not args.adapter_config or not args.adapter_config.exists():
+                return 2
+            adapter = load_adapter(args.adapter_config, timeout_seconds=args.timeout)
+        elif args.adapter == "noop":
+            adapter = NoopAdapter()
+        else:
+            return 2
+
+        challenge = _load_challenge(Path("challenges"), args.challenge)
+        config = RunConfig(
+            challenge_id=args.challenge,
+            adapter=args.adapter,
+            seeds=args.seeds,
+            timeout_seconds=args.timeout,
+        )
+        runner = BenchmarkRunner(workspace_root=args.runs_dir, adapter=adapter)
+        for seed in range(args.seed_start, args.seed_start + args.seeds):
+            res = runner.run(
+                config,
+                challenge,
+                seed=seed,
+                attempt_only=args.attempt_only,
+            )
+            status_val = res.status.value if hasattr(res, "status") and hasattr(res.status, "value") else str(getattr(res, "status", "COMPLETE"))
+            print(f"RUN {getattr(res, 'run_id', seed)}: {status_val}")
+        return 0
 
 if __name__ == "__main__":
     import sys
