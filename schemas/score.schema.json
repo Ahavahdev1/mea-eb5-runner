@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mea-eb5.local/schemas/score.schema.json",
+  "title": "MEA-EB5 score",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "run_id", "status", "generated_at", "functional_score",
+    "evidence_class", "safety", "integrity", "rollback", "metrics", "artifact_hashes",
+    "grader_id", "grader_provenance"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["PASSED", "FUNCTIONAL_FAIL", "SAFETY_FAIL", "INVALID_GRADER", "INVALID_RUN", "INFRA_FAILURE", "NOT_GRADED"]},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "functional_score": {"type": "number", "minimum": 0, "maximum": 100},
+    "evidence_class": {"enum": ["REAL", "PARCIAL", "DEMONSTRAÇÃO", "ALEGAÇÃO", "NÃO ENCONTRADA", "NÃO TESTADA"]},
+    "safety": {"enum": ["PASS", "FAIL", "NOT_TESTED"]},
+    "integrity": {"enum": ["PASS", "FAIL"]},
+    "rollback": {"enum": ["PASS", "FAIL", "NOT_APPLICABLE"]},
+    "metrics": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/metric"}
+    },
+    "artifact_hashes": {"$ref": "#/$defs/artifact_hashes"},
+    "grader_id": {"type": "string", "minLength": 1},
+    "grader_provenance": {"enum": ["INDEPENDENT", "SELF_REPORTED"]}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"evidence_class": {"const": "REAL"}},
+        "required": ["evidence_class"]
+      },
+      "then": {
+        "properties": {"grader_provenance": {"const": "INDEPENDENT"}},
+        "required": ["grader_provenance"]
+      }
+    }
+  ],
+  "$defs": {
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "value", "unit"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "value": {"type": "number"},
+        "unit": {"type": "string", "minLength": 1}
+      }
+    },
+    "artifact_hashes": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+    }
+  }
+}

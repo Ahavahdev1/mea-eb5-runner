@@ -1,0 +1,12 @@
+challenge_id: 02_long_horizon
+name: Long-Horizon Recovery Under Load
+description: 'Restore a composite service (application, worker, queue, checkpoint)
+  while
+
+  deterministic faults are injected at scheduled times.
+
+  '
+entrypoint: service_sim
+fixture_root: fixture
+network_allowed: false
+timeout_seconds: 600

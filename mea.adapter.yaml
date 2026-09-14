@@ -1,0 +1,7 @@
+# Copy to mea.adapter.yaml and replace the image with the MEA image digest.
+kind: cli
+image: "mea@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+command: ["mea", "run"]
+cpu: 2
+memory: "4g"
+pids: 256

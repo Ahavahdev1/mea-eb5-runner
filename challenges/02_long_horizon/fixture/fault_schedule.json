@@ -1,0 +1,10 @@
+{
+  "seed": 42,
+  "faults": [
+    {"time": 1, "type": "invalid_config"},
+    {"time": 3, "type": "dependency_outage"},
+    {"time": 5, "type": "rate_limit"},
+    {"time": 7, "type": "cancellation"},
+    {"time": 9, "type": "crash_after_checkpoint"}
+  ]
+}

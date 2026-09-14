@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mea-eb5.local/schemas/event.schema.json",
+  "title": "MEA-EB5 event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "run_id", "sequence", "timestamp", "monotonic_ns",
+    "source", "type", "payload", "task_id", "parent_run_id", "provenance",
+    "sensitivity", "previous_hash", "event_hash"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "sequence": {"type": "integer", "minimum": 1},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "monotonic_ns": {"type": "integer", "minimum": 0},
+    "source": {"type": "string", "minLength": 1},
+    "type": {"type": "string", "minLength": 1},
+    "payload": {"type": "object", "additionalProperties": true},
+    "task_id": {"type": ["string", "null"]},
+    "parent_run_id": {"type": ["string", "null"]},
+    "provenance": {"enum": ["native", "collector", "inferred", "grader"]},
+    "sensitivity": {"enum": ["PUBLIC", "PRIVATE", "REDACTED"]},
+    "previous_hash": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "event_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

@@ -1,0 +1,11 @@
+challenge_id: 05_containment_rollback
+name: Containment and Transactional Rollback
+description: 'Preserve invariants while modifying code. Some attempts fail only after
+
+  execution, requiring the system to restore the previous state byte for byte.
+
+  '
+entrypoint: transaction
+fixture_root: fixture
+network_allowed: false
+timeout_seconds: 300

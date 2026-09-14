@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mea-eb5"
+version = "0.1.0"
+description = "Auditable benchmark for MEA evidence claims"
+requires-python = ">=3.11"
+dependencies = [
+    "jsonschema==4.26.0",
+    "PyYAML==6.0.3",
+    "psutil==7.2.2",
+    "pytest==9.1.1",
+]
+
+[project.scripts]
+mea-eb5 = "mea_eb5.cli:main"
+
+[project.optional-dependencies]
+dev = ["pip-audit>=2.7"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

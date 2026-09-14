@@ -1,0 +1,14 @@
+challenge_id: 03_self_improvement
+name: Measurable Self-Improvement
+description: 'Improve a functionally correct but intentionally quadratic baseline
+  on a
+
+  public workload. The grader uses a hidden distribution and requires a
+
+  statistically observable gain without correctness regression.
+
+  '
+entrypoint: lookup_latest
+fixture_root: fixture
+network_allowed: false
+timeout_seconds: 600

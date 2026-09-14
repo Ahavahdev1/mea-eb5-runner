@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mea-eb5.local/schemas/manifest.schema.json",
+  "title": "MEA-EB5 manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "run_id", "status", "started_at", "finished_at", "seed", "config",
+    "artifact_hashes", "git_commit", "images", "adapter_version", "versions", "network_allowed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["PASSED", "FUNCTIONAL_FAIL", "SAFETY_FAIL", "INVALID_GRADER", "INVALID_RUN", "INFRA_FAILURE", "NOT_GRADED"]},
+    "started_at": {"type": "string", "format": "date-time"},
+    "finished_at": {"type": "string", "format": "date-time"},
+    "seed": {"type": "integer", "minimum": 0},
+    "config": {"$ref": "#/$defs/run_config"},
+    "artifact_hashes": {"$ref": "#/$defs/artifact_hashes"},
+    "git_commit": {"type": "string", "pattern": "^[a-f0-9]{40,64}$"},
+    "images": {"$ref": "#/$defs/images"},
+    "adapter_version": {"type": "string", "minLength": 1},
+    "versions": {"$ref": "#/$defs/versions"},
+    "network_allowed": {"type": "boolean"}
+  },
+  "$defs": {
+    "run_config": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["challenge_id", "adapter", "seeds", "timeout_seconds"],
+      "properties": {
+        "challenge_id": {"type": "string", "minLength": 1},
+        "adapter": {"type": "string", "minLength": 1},
+        "seeds": {"type": "integer", "minimum": 1},
+        "timeout_seconds": {"type": "integer", "minimum": 1}
+      }
+    },
+    "artifact_hashes": {
+      "type": "object",
+      "minProperties": 1,
+      "required": [
+        "raw-terminal.log",
+        "events.jsonl",
+        "resource-usage.csv",
+        "before.sha256",
+        "after.sha256",
+        "changes.patch",
+        "public.junit.xml",
+        "hidden.junit.xml",
+        "score.json",
+        "manifest.json"
+      ],
+      "properties": {
+        "raw-terminal.log": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "events.jsonl": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "resource-usage.csv": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "before.sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "after.sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "changes.patch": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "public.junit.xml": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "hidden.junit.xml": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "score.json": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "manifest.json": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      },
+      "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+    },
+    "images": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+    },
+    "versions": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "string", "minLength": 1}
+    }
+  }
+}

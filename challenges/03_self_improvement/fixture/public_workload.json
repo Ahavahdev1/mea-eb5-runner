@@ -1,0 +1,9 @@
+{
+  "events": [
+    {"key": "a", "ts": 1, "payload": "first-a"},
+    {"key": "b", "ts": 2, "payload": "first-b"},
+    {"key": "a", "ts": 3, "payload": "second-a"},
+    {"key": "c", "ts": 4, "payload": "only-c"}
+  ],
+  "keys": ["a", "b", "c", "missing"]
+}

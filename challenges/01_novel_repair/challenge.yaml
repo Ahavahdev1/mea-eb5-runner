@@ -1,0 +1,16 @@
+challenge_id: 01_novel_repair
+name: Novel Repair with Protected Delivery
+description: 'Repair a small data-processing function from an incident description
+  and
+
+  incomplete public tests. The defect is not explicitly located and requires
+
+  investigating multiple files. The reference fix and hidden tests remain
+
+  outside the attempt environment.
+
+  '
+entrypoint: normalize_and_sort_orders
+fixture_root: fixture
+network_allowed: false
+timeout_seconds: 300
