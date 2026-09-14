@@ -393,7 +393,7 @@ def main(argv: list[str] | None = None) -> int:
     run_parser.add_argument("--adapter-config", type=Path)
     run_parser.add_argument("--runs-dir", type=Path, default=Path("runs"))
     run_parser.add_argument(
-        "---attempt-only",
+        "--attempt-only",
         action="store_true",
         help="collect an ungraded attempt for a separate private grader",
     )
